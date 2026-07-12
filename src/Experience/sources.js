@@ -1,4 +1,14 @@
 export default [
+    {
+        name: 'signShopTexture',
+        type: 'texture',
+        path: 'textures/signs/signShop.png'
+    },
+    {
+        name: 'signPoleTexture',
+        type: 'texture',
+        path: 'textures/signs/signPole.png'
+    },
     // Models
     {
         name: 'dimSumShopModel',

@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "ktx2-encoder": "^0.5.3",
-    "pngjs": "^7.0.0"
+    "pngjs": "^7.0.0",
+    "puppeteer-core": "^24.43.1"
   }
 }
