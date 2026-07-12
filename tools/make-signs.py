@@ -5,6 +5,7 @@ exactly where the old letter geometry was, once that geometry is stripped out.
     .venv/bin/python tools/make-signs.py <static/textures/signs>
 """
 import sys
+import math
 import pathlib
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -36,6 +37,69 @@ def neon(size, text, size_px, core, glow, pad_scale=1.0):
     return img
 
 
+CJK = '/System/Library/Fonts/Supplemental/Hiragino Sans GB.ttc'
+CYAN = (94, 234, 240)
+GREEN = (86, 240, 130)
+
+
+def glow(img, colour, radius, width):
+    """A blurred copy of the strokes, to fake the neon bleed."""
+    halo = img.filter(ImageFilter.GaussianBlur(radius=radius))
+    return halo
+
+
+def food_icon(size=(1024, 924)):
+    """A neon bamboo steamer with dumplings and steam, in place of the ramen bowl."""
+    w, h = size
+    strokes = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(strokes)
+
+    lw = 14
+    # steam curls
+    for i, x in enumerate((330, 512, 694)):
+        pts = []
+        for t in range(0, 101, 5):
+            k = t / 100
+            pts.append((x + 46 * math.sin(k * math.pi * 2 + i), 300 - k * 210))
+        d.line(pts, fill=CYAN + (255,), width=lw, joint='curve')
+
+    # lid
+    d.arc((250, 300, 774, 470), start=180, end=360, fill=PINK + (255,), width=lw)
+    d.line((250, 386, 774, 386), fill=PINK + (255,), width=lw)
+    d.ellipse((492, 300, 532, 340), outline=PINK + (255,), width=lw)   # lid knob
+
+    # basket: two stacked bamboo tiers
+    for top in (410, 540):
+        d.rounded_rectangle((250, top, 774, top + 120), radius=26, outline=PINK + (255,), width=lw)
+        for x in range(300, 760, 76):
+            d.line((x, top + 22, x, top + 98), fill=PINK + (140,), width=6)
+
+    # three dumplings peeking out of the top tier
+    for x in (356, 512, 668):
+        d.arc((x - 74, 344, x + 74, 470), start=180, end=360, fill=CYAN + (255,), width=lw)
+        d.line((x - 40, 400, x - 16, 372), fill=CYAN + (200,), width=8)
+        d.line((x + 40, 400, x + 16, 372), fill=CYAN + (200,), width=8)
+
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    img.alpha_composite(strokes.filter(ImageFilter.GaussianBlur(radius=18)))
+    img.alpha_composite(strokes)
+    return img
+
+
+def chinese_sign(size=(2048, 334)):
+    """Replaces the old sign, which read 'delicious noodle soup'."""
+    w, h = size
+    strokes = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(strokes)
+    font = ImageFont.truetype(CJK, 190, index=1)
+    d.text((w / 2, h / 2), '美味点心屋', font=font, fill=GREEN + (255,), anchor='mm')
+
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    img.alpha_composite(strokes.filter(ImageFilter.GaussianBlur(radius=16)))
+    img.alpha_composite(strokes)
+    return img
+
+
 def main():
     out = pathlib.Path(sys.argv[1])
     out.mkdir(parents=True, exist_ok=True)
@@ -44,6 +108,12 @@ def main():
     shop = neon((2048, 352), "JACKIE'S DIM SUM", 190, PINK_CORE, PINK)
     shop.save(out / 'signShop.png')
     print('wrote signShop.png')
+
+    food_icon().save(out / 'signFood.png')
+    print('wrote signFood.png')
+
+    chinese_sign().save(out / 'signChinese.png')
+    print('wrote signChinese.png')
 
     # The pole sign carries its barcode + "j zhou" twice: as letter geometry AND
     # baked into the shop's misc texture. Hiding the geometry just uncovers the

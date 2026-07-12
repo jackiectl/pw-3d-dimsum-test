@@ -1,5 +1,15 @@
 export default [
     {
+        name: 'signFoodTexture',
+        type: 'texture',
+        path: 'textures/signs/signFood.png'
+    },
+    {
+        name: 'signChineseTexture',
+        type: 'texture',
+        path: 'textures/signs/signChinese.png'
+    },
+    {
         name: 'signShopTexture',
         type: 'texture',
         path: 'textures/signs/signShop.png'

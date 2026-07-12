@@ -2,42 +2,32 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 
 /**
- * The shop's name is letter geometry merged into the neonPink mesh, so it can't be
- * re-lettered by swapping a texture. Instead we split that mesh into connected
- * components, drop the ones that are the old letters, and hang a glowing plane
- * where they used to be.
+ * Re-letters and re-badges the shop without touching the model file.
  *
- * A letter component is thin on X (the sign's plane), short, and sits in the sign's
- * band of Y — which separates it from the sign's border tube (long on Z), the bowl
- * icon (tall) and the chopsticks (high up).
+ * The signage is letter/icon geometry merged into a handful of neon meshes, so it
+ * can't be changed by swapping a texture. Instead each mesh is split into connected
+ * components (union-find over welded vertices), the components that make up the old
+ * artwork are dropped from the index, and a glowing plane is hung where they were.
+ *
+ * All the boxes below are in WORLD space — the meshes carry a transform, so their
+ * local coordinates are not these.
  */
 
-const LETTER = {
-    maxThickness: 0.06,     // letters are ~0.03 deep; the border tube is thicker
-    maxSpan: 0.5,           // a glyph is ~0.3 wide; the border runs 4.65 along Z
-    minY: 0.80,
-    maxY: 1.50,
-}
+// "JESSE'S RAMEN": a row of thin glyphs on the sign face
+const isShopLetter = (size, min, max) =>
+    size[0] < 0.06 && size[1] < 0.5 && size[2] < 0.5 && min[1] > 0.80 && max[1] < 1.50
 
-// where the old letters sat, in world space
-const SIGN = {
-    x: -2.465,              // just in front of the letters (camera looks from -X)
-    y: 1.145,
-    z: -0.965,
-    width: 4.05,            // along Z
-    height: 0.70,           // along Y
-}
+// the ramen bowl outline, sitting above the sign
+const isBowl = (size, min) =>
+    size[1] > 0.7 && size[1] < 1.1 && min[1] > 1.6 && min[1] < 2.0
 
-// The pole sign shows its barcode + "j zhou" twice over: once as letter geometry
-// (jackieBlack) and once baked into the shop's misc texture. Hiding the geometry only
-// uncovers the baked copy, so the replacement is an opaque face covering the whole
-// pink plate.
-const POLE = {
-    x: -4.120,
-    y: -0.371,
-    z: -4.747,
-    size: 0.709,            // matches the pink plate
-}
+// the chopsticks, higher again
+const isChopstick = (size, min) => min[1] > 2.9 && size[2] > 1.0
+
+const SHOP_SIGN = { x: -2.465, y: 1.145, z: -0.965, width: 4.05, height: 0.70 }
+const POLE_SIGN = { x: -4.120, y: -0.371, z: -4.747, size: 0.709 }
+const FOOD_ICON = { x: -2.380, y: 2.640, z: 0.640, width: 2.05, height: 1.85 }
+const CHINESE = { x: -1.700, y: -0.720, z: -0.924, width: 3.80, height: 0.62 }
 
 export default class Signs
 {
@@ -48,16 +38,35 @@ export default class Signs
         this.resources = this.experience.resources
         this.shop = this.experience.world.dimSumShop
 
-        this.stripOldLetters(this.shop.neonPink)
-        this.addShopSign()
-        this.addPoleSign()
+        this.removed = {}
+
+        // shop name
+        this.removed.letters = this.stripComponents(this.shop.neonPink, isShopLetter)
+        this.addPlane('shopSign', SHOP_SIGN, 'signShopTexture', { transparent: true })
+
+        // ramen bowl -> dim sum steamer
+        this.removed.bowl = this.stripComponents(this.shop.neonBlue, isBowl)
+        this.removed.chopsticks = this.stripComponents(this.shop.neonPink, isChopstick)
+        this.shop.neonYellow.visible = false        // the noodle strands
+        this.addPlane('foodIcon', FOOD_ICON, 'signFoodTexture', { transparent: true })
+
+        // the Chinese sign read "delicious noodle soup"
+        this.shop.chinese.visible = false
+        this.addPlane('chineseSign', CHINESE, 'signChineseTexture', { transparent: true })
+
+        // the pole sign's barcode + "j zhou" exist twice, as geometry and baked into
+        // the shop texture, so hiding the geometry only uncovers the baked copy — this
+        // replacement is opaque and covers the whole plate
+        this.shop.jackieBlack.visible = false
+        this.addPlane('poleSign', { ...POLE_SIGN, width: POLE_SIGN.size, height: POLE_SIGN.size },
+                      'signPoleTexture', { transparent: false })
     }
 
     /**
-     * Rebuild the mesh's geometry without the triangles belonging to letter-shaped
-     * connected components.
+     * Rebuild a mesh's index without the triangles whose connected component matches
+     * `matches(size, min, max)`. Returns how many triangles were dropped.
      */
-    stripOldLetters(mesh)
+    stripComponents(mesh, matches)
     {
         const geometry = mesh.geometry
         const position = geometry.attributes.position
@@ -65,20 +74,16 @@ export default class Signs
         const triangles = index ? index.count / 3 : position.count / 3
         const vertexAt = i => (index ? index.getX(i) : i)
 
-        // weld by quantised position so a glyph's own triangles join up but separate
-        // glyphs stay separate
+        // weld by quantised position: a glyph's own triangles join up, separate glyphs
+        // stay separate
         const ids = new Map()
-        const idOf = (v) =>
-        {
-            const key = `${Math.round(position.getX(v) * 1000)},${Math.round(position.getY(v) * 1000)},${Math.round(position.getZ(v) * 1000)}`
-            if(!ids.has(key)) ids.set(key, ids.size)
-            return ids.get(key)
-        }
-
         const welded = new Array(triangles * 3)
         for(let i = 0; i < triangles * 3; i++)
         {
-            welded[i] = idOf(vertexAt(i))
+            const v = vertexAt(i)
+            const key = `${Math.round(position.getX(v) * 1000)},${Math.round(position.getY(v) * 1000)},${Math.round(position.getZ(v) * 1000)}`
+            if(!ids.has(key)) ids.set(key, ids.size)
+            welded[i] = ids.get(key)
         }
 
         const parent = new Array(ids.size)
@@ -100,12 +105,10 @@ export default class Signs
             union(welded[t * 3 + 1], welded[t * 3 + 2])
         }
 
-        // bounds per component, in WORLD space — the mesh carries a transform, so its
-        // local coordinates are not the ones the thresholds below are expressed in
         mesh.updateWorldMatrix(true, false)
         const point = new THREE.Vector3()
-
         const bounds = new Map()
+
         for(let t = 0; t < triangles; t++)
         {
             const root = find(welded[t * 3])
@@ -117,8 +120,7 @@ export default class Signs
             }
             for(let k = 0; k < 3; k++)
             {
-                const v = vertexAt(t * 3 + k)
-                point.fromBufferAttribute(position, v).applyMatrix4(mesh.matrixWorld)
+                point.fromBufferAttribute(position, vertexAt(t * 3 + k)).applyMatrix4(mesh.matrixWorld)
                 const p = [point.x, point.y, point.z]
                 for(let a = 0; a < 3; a++)
                 {
@@ -128,24 +130,18 @@ export default class Signs
             }
         }
 
-        const isLetter = new Map()
+        const doomed = new Set()
         for(const [root, b] of bounds)
         {
             const size = [b.max[0] - b.min[0], b.max[1] - b.min[1], b.max[2] - b.min[2]]
-            isLetter.set(root,
-                size[0] < LETTER.maxThickness &&
-                size[1] < LETTER.maxSpan &&
-                size[2] < LETTER.maxSpan &&
-                b.min[1] > LETTER.minY &&
-                b.max[1] < LETTER.maxY
-            )
+            if(matches(size, b.min, b.max)) doomed.add(root)
         }
 
         const keep = []
         let dropped = 0
         for(let t = 0; t < triangles; t++)
         {
-            if(isLetter.get(find(welded[t * 3])))
+            if(doomed.has(find(welded[t * 3])))
             {
                 dropped++
                 continue
@@ -155,52 +151,32 @@ export default class Signs
 
         geometry.setIndex(keep)
         geometry.computeBoundingSphere()
-
-        this.strippedTriangles = dropped
+        return dropped
     }
 
-    signMaterial(texture)
+    addPlane(name, box, textureName, { transparent })
     {
-        texture.colorSpace = THREE.SRGBColorSpace
+        const texture = this.resources.items[textureName]
+
+        // Resources loads every 'texture' with flipY = false to match glTF's UV
+        // convention; these planes use PlaneGeometry's own UVs, which want it back on.
         texture.flipY = true
+        texture.encoding = THREE.sRGBEncoding
+        texture.needsUpdate = true
 
-        return new THREE.MeshBasicMaterial({
-            map: texture,
-            transparent: true,
-            depthWrite: false,
-            side: THREE.DoubleSide,
-        })
-    }
+        const material = transparent
+            ? new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, side: THREE.DoubleSide })
+            : new THREE.MeshBasicMaterial({ map: texture })
 
-    addShopSign()
-    {
-        const geometry = new THREE.PlaneGeometry(SIGN.width, SIGN.height)
+        const geometry = new THREE.PlaneGeometry(box.width, box.height)
         geometry.rotateY(-Math.PI * 0.5)      // face -X, width running along Z
 
-        this.shopSign = new THREE.Mesh(geometry, this.signMaterial(this.resources.items.signShopTexture))
-        this.shopSign.position.set(SIGN.x, SIGN.y, SIGN.z)
-        this.shopSign.name = 'shopSign'
+        const mesh = new THREE.Mesh(geometry, material)
+        mesh.position.set(box.x, box.y, box.z)
+        mesh.name = name
 
-        this.scene.add(this.shopSign)
-    }
-
-    addPoleSign()
-    {
-        this.shop.jackieBlack.visible = false
-
-        const texture = this.resources.items.signPoleTexture
-        texture.colorSpace = THREE.SRGBColorSpace
-
-        // opaque: it has to hide the baked-in barcode and "j zhou" underneath
-        const material = new THREE.MeshBasicMaterial({ map: texture })
-
-        const geometry = new THREE.PlaneGeometry(POLE.size, POLE.size)
-        geometry.rotateY(-Math.PI * 0.5)
-
-        this.poleSign = new THREE.Mesh(geometry, material)
-        this.poleSign.position.set(POLE.x, POLE.y, POLE.z)
-        this.poleSign.name = 'poleSign'
-
-        this.scene.add(this.poleSign)
+        this.scene.add(mesh)
+        this[name] = mesh
+        return mesh
     }
 }
