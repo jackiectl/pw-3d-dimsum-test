@@ -20,11 +20,11 @@ export default class Hologram
         }
 
         // Resource
-        this.ramenHologram = this.resources.items.ramenHologram
+        this.dimSumHologram = this.resources.items.dimSumHologram
         this.update = function update() {}
 
         this.animate = true
-        this.positions = this.combineBuffer( this.ramenHologram.scene, 'position' )
+        this.positions = this.combineBuffer( this.dimSumHologram.scene, 'position' )
         this.createMesh( this.positions, this.scene, 0.0225, -0.1, 2, -0.95 )
 
 

@@ -67,7 +67,7 @@ export default class Materials
     {
 
         // map baked textures
-        this.ramenShopMaterial = new THREE.MeshBasicMaterial({ map: this.resources.items.ramenShopBakedTexture })
+        this.dimSumShopMaterial = new THREE.MeshBasicMaterial({ map: this.resources.items.dimSumShopBakedTexture })
         this.machinesMaterial = new THREE.MeshBasicMaterial({ map: this.resources.items.machinesBakedTexture })
         this.floorMaterial = new THREE.MeshBasicMaterial({ map: this.resources.items.floorBakedTexture })
         this.miscMaterial = new THREE.MeshBasicMaterial({ map: this.resources.items.miscBakedTexture })
@@ -241,8 +241,8 @@ export default class Materials
         this.easelMaterial = new THREE.MeshBasicMaterial({ map: this.resources.items.easelClickTexture })
       }
 
-      this.ramenShop = this.experience.world.ramenShop
-      this.ramenShop.setEaselMaterial()
+      this.dimSumShop = this.experience.world.dimSumShop
+      this.dimSumShop.setEaselMaterial()
     }
 
 // https://discourse.threejs.org/t/basis-video-texture/12716

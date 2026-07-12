@@ -1,7 +1,7 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Hologram from './Hologram.js'
-import RamenShop from './RamenShop.js'
+import DimSumShop from './DimSumShop.js'
 import Reflections from './Reflections.js'
 
 export default class World
@@ -16,7 +16,7 @@ export default class World
         this.resources.on('ready', () =>
         {
             // Setup
-            this.ramenShop = new RamenShop()
+            this.dimSumShop = new DimSumShop()
             this.hologram = new Hologram()
             this.reflections = new Reflections()
         })

@@ -2,8 +2,8 @@
   "repository": "#",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config ./bundler/webpack.prod.js",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider webpack serve --config ./bundler/webpack.dev.js",
     "deploy": "vercel --prod"
   },
   "dependencies": {
@@ -31,5 +31,9 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0",
     "webpack-merge": "^5.8.0"
+  },
+  "devDependencies": {
+    "ktx2-encoder": "^0.5.3",
+    "pngjs": "^7.0.0"
   }
 }

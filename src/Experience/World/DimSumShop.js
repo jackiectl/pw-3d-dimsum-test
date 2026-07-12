@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 
 
-export default class RamenShop
+export default class DimSumShop
 {
     constructor()
     {
@@ -16,11 +16,11 @@ export default class RamenShop
         // Debug
         if(this.debug.active)
         {
-            // this.debugFolder = this.debug.ui.addFolder('ramenShop')
+            // this.debugFolder = this.debug.ui.addFolder('dimSumShop')
         }
 
         // Resource
-        this.resource = this.resources.items.ramenShopModel
+        this.resource = this.resources.items.dimSumShopModel
 
         this.parseModel()
         this.addObjects()
@@ -32,12 +32,12 @@ export default class RamenShop
         this.model = this.resource.scene
 
         // Objects
-        this.ramenShop = this.model.children.find(child => child.name === 'ramenShopJoined')
+        this.dimSumShop = this.model.children.find(child => child.name === 'dimSumShopJoined')
         this.machines = this.model.children.find(child => child.name === 'machinesJoined')
         this.floor = this.model.children.find(child => child.name === 'floor')
         this.misc = this.model.children.find(child => child.name === 'miscJoined')
         this.graphics = this.model.children.find(child => child.name === 'graphicsJoined') 
-        this.jesseZhouJoined = this.model.children.find(child => child.name === 'jesseZhouJoined')
+        this.jackieJoined = this.model.children.find(child => child.name === 'jackieJoined')
 
         // Moving Objects
         this.fan1 = this.model.children.find(child => child.name === 'fan1') 
@@ -50,8 +50,8 @@ export default class RamenShop
         this.projectsWhite = this.model.children.find(child => child.name === 'projectsWhite')
         this.articlesRed = this.model.children.find(child => child.name === 'articlesRed')
         this.articlesWhite = this.model.children.find(child => child.name === 'articlesWhite')
-        this.jZhouBlack = this.model.children.find(child => child.name === 'jZhouBlack')
-        this.jZhouPink = this.model.children.find(child => child.name === 'jZhouPink')
+        this.jackieBlack = this.model.children.find(child => child.name === 'jackieBlack')
+        this.jackiePink = this.model.children.find(child => child.name === 'jackiePink')
         this.aboutMeBlack = this.model.children.find(child => child.name === 'aboutMeBlack')
         this.aboutMeBlue = this.model.children.find(child => child.name === 'aboutMeBlue')
         this.creditsBlack = this.model.children.find(child => child.name === 'creditsBlack')
@@ -109,12 +109,12 @@ export default class RamenShop
         this.resources.on('texturesMapped', () =>
         {
             // Objects
-            this.ramenShop.material = this.materials.ramenShopMaterial
+            this.dimSumShop.material = this.materials.dimSumShopMaterial
             this.machines.material = this.materials.machinesMaterial
             this.floor.material = this.materials.floorMaterial
             this.misc.material = this.materials.miscMaterial
             this.graphics.material = this.materials.graphicsMaterial
-            this.jesseZhouJoined.material = this.materials.whiteSignMaterial
+            this.jackieJoined.material = this.materials.whiteSignMaterial
 
             // Moving Objects
             this.fan1.material = this.materials.fanMatcapMaterial
@@ -127,8 +127,8 @@ export default class RamenShop
             this.projectsWhite.material = this.materials.whiteSignMaterial
             this.articlesWhite.material = this.materials.whiteSignMaterial
             this.articlesRed.material = this.materials.redSignMaterial
-            this.jZhouBlack.material = this.materials.blackSignMaterial
-            this.jZhouPink.material = this.materials.pinkSignMaterial
+            this.jackieBlack.material = this.materials.blackSignMaterial
+            this.jackiePink.material = this.materials.pinkSignMaterial
             this.aboutMeBlack.material = this.materials.blackSignMaterial
             this.aboutMeBlue.material = this.materials.blueSignMaterial
             this.creditsBlack.material = this.materials.blackSignMaterial

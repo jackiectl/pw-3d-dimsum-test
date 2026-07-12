@@ -26,7 +26,7 @@ export default class Controller
 
         this.resources.on('ready', () =>
         {
-            this.ramenShop = this.experience.world.ramenShop
+            this.dimSumShop = this.experience.world.dimSumShop
             this.materials = this.experience.materials
         })
 
@@ -216,14 +216,14 @@ export default class Controller
             }
  
         }
-        this.menuControls.jZhou = async (obj, color) =>
+        this.menuControls.jackie = async (obj, color) =>
         {
             if(this.logic.buttonsLocked === false && this.logic.mode === 'menu')
             {
                 this.sounds.playClick()
                 this.sounds.playWhoosh()
                 this.menuControls.buttonIndicator(obj, color)
-                this.camera.transitions.jZhou(1.5)
+                this.camera.transitions.jackie(1.5)
             }
         }
         this.menuControls.articles = async (obj, color) =>
@@ -233,7 +233,7 @@ export default class Controller
                 this.sounds.playClick()
                 this.menuControls.buttonIndicator(obj, color)
                 await this.sleep(250)
-                window.open('https://medium.com/@jesse-zhou', '_blank')
+                window.open('https://github.com/jackiectl', '_blank')
             }
         }
         this.menuControls.aboutMe = async (obj, color) =>
@@ -280,14 +280,14 @@ export default class Controller
         this.menuControls.buttonIndicator = async (obj, color) =>
         {
             if (color === 'black') {
-                obj.material = this.ramenShop.materials.whiteSignMaterial
+                obj.material = this.dimSumShop.materials.whiteSignMaterial
                 await this.sleep(200)
-                obj.material = this.ramenShop.materials.blackSignMaterial
+                obj.material = this.dimSumShop.materials.blackSignMaterial
             }
             if (color === 'white') {
-                obj.material = this.ramenShop.materials.blackSignMaterial
+                obj.material = this.dimSumShop.materials.blackSignMaterial
                 await this.sleep(200)
-                obj.material = this.ramenShop.materials.whiteSignMaterial
+                obj.material = this.dimSumShop.materials.whiteSignMaterial
             }
         }
     }
@@ -587,7 +587,7 @@ export default class Controller
         {
             if(this.logic.buttonsLocked === false && (this.logic.mode === 'aboutMe' || this.logic.mode === 'skills' || this.logic.mode === 'experience'))
             {
-                window.open('https://twitter.com/Jessezhouu', '_blank');
+                window.open('https://github.com/jackiectl', '_blank');
             }
             
         }
@@ -596,7 +596,7 @@ export default class Controller
         {
             if(this.logic.buttonsLocked === false && (this.logic.mode === 'aboutMe' || this.logic.mode === 'skills' || this.logic.mode === 'experience'))
             {
-                window.open('https://www.linkedin.com/in/jessezhou1998', '_blank');
+                window.open('https://github.com/jackiectl', '_blank');
             }
             
         }
@@ -605,7 +605,7 @@ export default class Controller
         {
             if(this.logic.buttonsLocked === false && (this.logic.mode === 'aboutMe' || this.logic.mode === 'skills' || this.logic.mode === 'experience'))
             {
-                window.open('https://github.com/enderh3art', '_blank');
+                window.open('https://github.com/jackiectl', '_blank');
             }
             
         }
@@ -614,7 +614,7 @@ export default class Controller
         {
             if(this.logic.buttonsLocked === false && (this.logic.mode === 'aboutMe' || this.logic.mode === 'skills' || this.logic.mode === 'experience'))
             {
-                window.open('https://medium.com/@jesse-zhou', '_blank');
+                window.open('https://github.com/jackiectl', '_blank');
             }
             
         }
@@ -623,7 +623,7 @@ export default class Controller
         {
             if(this.logic.buttonsLocked === false && (this.logic.mode === 'aboutMe' || this.logic.mode === 'skills' || this.logic.mode === 'experience'))
             {
-                window.location.href='mailto:jessezhouu@gmail.com'
+                window.location.href='mailto:ctlang@umich.edu'
             }
             
         }

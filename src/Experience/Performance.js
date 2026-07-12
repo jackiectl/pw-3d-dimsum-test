@@ -85,11 +85,11 @@ export default class Performance
         // change materials
         this.materials = this.experience.materials
 
-        this.experience.world.ramenShop.neonPink.material = this.materials.lightMatcapMaterial
-        this.experience.world.ramenShop.neonBlue.material = this.materials.neonBlueMatcapMaterial
-        this.experience.world.ramenShop.neonGreen.material = this.materials.neonGreenMatcapMaterial
-        this.experience.world.ramenShop.arcadeRim.material = new THREE.MeshBasicMaterial({color: new THREE.Color('#55FFFF')})
-        this.experience.world.ramenShop.poleLight.material = this.materials.lightMatcapMaterial
+        this.experience.world.dimSumShop.neonPink.material = this.materials.lightMatcapMaterial
+        this.experience.world.dimSumShop.neonBlue.material = this.materials.neonBlueMatcapMaterial
+        this.experience.world.dimSumShop.neonGreen.material = this.materials.neonGreenMatcapMaterial
+        this.experience.world.dimSumShop.arcadeRim.material = new THREE.MeshBasicMaterial({color: new THREE.Color('#55FFFF')})
+        this.experience.world.dimSumShop.poleLight.material = this.materials.lightMatcapMaterial
         
     }
 

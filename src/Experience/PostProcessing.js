@@ -36,7 +36,7 @@ export default class PostProcessing
         // Wait for resources
         this.resources.on('ready', () =>
         {
-            this.ramenShop = this.experience.world.ramenShop
+            this.dimSumShop = this.experience.world.dimSumShop
             this.setBloomConfig()
             this.setBloomObjects()
             this.setRenderTarget()
@@ -62,19 +62,19 @@ export default class PostProcessing
 
     setBloomObjects()
     {
-        this.ramenShop.chinese.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.neonBlue.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.neonPink.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.neonYellow.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.neonGreen.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.whiteButton.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.redLED.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.greenLED.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.portalLight.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.storageLight.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.poleLight.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.arcadeRim.layers.enable(this.BLOOM_SCENE)
-        this.ramenShop.hologramBase.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.chinese.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.neonBlue.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.neonPink.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.neonYellow.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.neonGreen.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.whiteButton.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.redLED.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.greenLED.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.portalLight.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.storageLight.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.poleLight.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.arcadeRim.layers.enable(this.BLOOM_SCENE)
+        this.dimSumShop.hologramBase.layers.enable(this.BLOOM_SCENE)
     }
 
     setRenderTarget()

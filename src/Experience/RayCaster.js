@@ -23,7 +23,7 @@ export default class RayCaster
         {
             // Setup
             this.config.touch = this.experience.config.touch
-            this.ramenShop = this.experience.world.ramenShop
+            this.dimSumShop = this.experience.world.dimSumShop
             this.hologram = this.experience.world.hologram
             this.raycaster = new THREE.Raycaster()
             this.cursorDown = new THREE.Vector2()
@@ -39,11 +39,11 @@ export default class RayCaster
             )
             this.projectsHitBox.position.set(-4,0.4,-5)
 
-            this.jZhouHitBox = new THREE.Mesh(
+            this.jackieHitBox = new THREE.Mesh(
                 new THREE.BoxGeometry( 0.4, 1, 1 ),
                 this.hitBoxMaterial
             )
-            this.jZhouHitBox.position.set(-4,-0.4,-4.72)
+            this.jackieHitBox.position.set(-4,-0.4,-4.72)
             this.articlesHitBox = new THREE.Mesh(
                 new THREE.BoxGeometry( 0.4, 0.45, 1.5 ),
                 this.hitBoxMaterial
@@ -62,7 +62,7 @@ export default class RayCaster
             )
             this.creditsHitBox.position.set(-4,-2.3,-5.03)
 
-            this.signHitBoxes.add(this.projectsHitBox, this.jZhouHitBox, this.articlesHitBox,this.aboutMeHitBox, this.creditsHitBox )
+            this.signHitBoxes.add(this.projectsHitBox, this.jackieHitBox, this.articlesHitBox,this.aboutMeHitBox, this.creditsHitBox )
             this.signHitBoxes.visible = false
             this.scene.add(this.signHitBoxes)
 
@@ -293,7 +293,7 @@ export default class RayCaster
                     .onChange(() =>
                     {
                         this.projectsHitBox.visible = this.hitBoxVisibility.visible
-                        this.jZhouHitBox.visible = this.hitBoxVisibility.visible
+                        this.jackieHitBox.visible = this.hitBoxVisibility.visible
                         this.articlesHitBox.visible = this.hitBoxVisibility.visible
                         this.aboutMeHitBox.visible = this.hitBoxVisibility.visible
                         this.creditsHitBox.visible = this.hitBoxVisibility.visible
@@ -315,11 +315,11 @@ export default class RayCaster
 
             this.objectsToTest = [
                 //menu
-                this.ramenShop.projectsRed,this.ramenShop.projectsWhite,
-                this.ramenShop.jZhouBlack, this.ramenShop.jZhouPink,
-                this.ramenShop.articlesWhite,this.ramenShop.articlesRed,
-                this.ramenShop.aboutMeBlack,this.ramenShop.aboutMeBlue,
-                this.ramenShop.creditsBlack,this.ramenShop.creditsOrange,
+                this.dimSumShop.projectsRed,this.dimSumShop.projectsWhite,
+                this.dimSumShop.jackieBlack, this.dimSumShop.jackiePink,
+                this.dimSumShop.articlesWhite,this.dimSumShop.articlesRed,
+                this.dimSumShop.aboutMeBlack,this.dimSumShop.aboutMeBlue,
+                this.dimSumShop.creditsBlack,this.dimSumShop.creditsOrange,
 
                 //projects
                 this.project1, 
@@ -340,30 +340,30 @@ export default class RayCaster
                 this.experience,
 
                 // arcadeScreen
-                this.ramenShop.arcadeScreen,
+                this.dimSumShop.arcadeScreen,
 
                 // Models
-                this.ramenShop.ramenShop,
-                this.ramenShop.machines,
-                this.ramenShop.floor,
-                this.ramenShop.misc,
-                this.ramenShop.graphics,
-                this.ramenShop.jesseZhouJoined,
+                this.dimSumShop.dimSumShop,
+                this.dimSumShop.machines,
+                this.dimSumShop.floor,
+                this.dimSumShop.misc,
+                this.dimSumShop.graphics,
+                this.dimSumShop.jackieJoined,
 
                 //hologram
                 this.hologramHitBox,
 
                 //TV screens
-                this.ramenShop.bigScreen,
-                this.ramenShop.littleTVScreen,
-                this.ramenShop.tallScreen,
-                this.ramenShop.tvScreen,
+                this.dimSumShop.bigScreen,
+                this.dimSumShop.littleTVScreen,
+                this.dimSumShop.tallScreen,
+                this.dimSumShop.tvScreen,
                 
-                this.ramenShop.smallScreen1,
-                this.ramenShop.smallScreen2,
-                this.ramenShop.smallScreen3,
-                this.ramenShop.smallScreen4,
-                this.ramenShop.smallScreen5,
+                this.dimSumShop.smallScreen1,
+                this.dimSumShop.smallScreen2,
+                this.dimSumShop.smallScreen3,
+                this.dimSumShop.smallScreen4,
+                this.dimSumShop.smallScreen5,
 
                 // socials
                 this.twitterSocialButton,
@@ -378,7 +378,7 @@ export default class RayCaster
             {
                 this.objectsToTest.push(
                     this.projectsHitBox,
-                    this.jZhouHitBox,
+                    this.jackieHitBox,
                     this.articlesHitBox,
                     this.aboutMeHitBox,
                     this.creditsHitBox)
@@ -386,33 +386,33 @@ export default class RayCaster
             else 
             {
                 this.objectsToTest.push(
-                    this.ramenShop.projectsRed,this.ramenShop.projectsWhite,
-                    this.ramenShop.jZhouBlack, this.ramenShop.jZhouPink,
-                    this.ramenShop.articlesWhite,this.ramenShop.articlesRed,
-                    this.ramenShop.aboutMeBlack,this.ramenShop.aboutMeBlue,
-                    this.ramenShop.creditsBlack,this.ramenShop.creditsOrange,
+                    this.dimSumShop.projectsRed,this.dimSumShop.projectsWhite,
+                    this.dimSumShop.jackieBlack, this.dimSumShop.jackiePink,
+                    this.dimSumShop.articlesWhite,this.dimSumShop.articlesRed,
+                    this.dimSumShop.aboutMeBlack,this.dimSumShop.aboutMeBlue,
+                    this.dimSumShop.creditsBlack,this.dimSumShop.creditsOrange,
                 )
             }
 
             // add the machines
 
-            this.machinesToTest = [this.vendingMachineHitBox, this.arcadeMachineHitBox, this.ramenShop.bigScreen,
+            this.machinesToTest = [this.vendingMachineHitBox, this.arcadeMachineHitBox, this.dimSumShop.bigScreen,
 
                 //obstructors
-                this.ramenShop.ramenShop,
-                this.ramenShop.machines,
-                this.ramenShop.floor,
-                this.ramenShop.misc,
-                this.ramenShop.bigScreen,
-                this.ramenShop.littleTVScreen,
-                this.ramenShop.tallScreen,
-                this.ramenShop.tvScreen,
+                this.dimSumShop.dimSumShop,
+                this.dimSumShop.machines,
+                this.dimSumShop.floor,
+                this.dimSumShop.misc,
+                this.dimSumShop.bigScreen,
+                this.dimSumShop.littleTVScreen,
+                this.dimSumShop.tallScreen,
+                this.dimSumShop.tvScreen,
                 
-                this.ramenShop.smallScreen1,
-                this.ramenShop.smallScreen2,
-                this.ramenShop.smallScreen3,
-                this.ramenShop.smallScreen4,
-                this.ramenShop.smallScreen5,
+                this.dimSumShop.smallScreen1,
+                this.dimSumShop.smallScreen2,
+                this.dimSumShop.smallScreen3,
+                this.dimSumShop.smallScreen4,
+                this.dimSumShop.smallScreen5,
             ]
 
             this.touchedPoints = []
@@ -466,34 +466,34 @@ export default class RayCaster
             switch(this.selectedModel)
             {
                 // Menu
-                case this.ramenShop.projectsRed:
-                case this.ramenShop.projectsWhite:
+                case this.dimSumShop.projectsRed:
+                case this.dimSumShop.projectsWhite:
                 case this.projectsHitBox:
-                    this.controller.menuControls.projects(this.ramenShop.projectsWhite, 'white')
+                    this.controller.menuControls.projects(this.dimSumShop.projectsWhite, 'white')
                     break
 
-                case this.ramenShop.jZhouBlack:
-                case this.ramenShop.jZhouPink:
-                case this.jZhouHitBox:
-                    this.controller.menuControls.jZhou(this.ramenShop.jZhouBlack, 'black')
+                case this.dimSumShop.jackieBlack:
+                case this.dimSumShop.jackiePink:
+                case this.jackieHitBox:
+                    this.controller.menuControls.jackie(this.dimSumShop.jackieBlack, 'black')
                     break
 
-                case this.ramenShop.articlesWhite:
-                case this.ramenShop.articlesRed:
+                case this.dimSumShop.articlesWhite:
+                case this.dimSumShop.articlesRed:
                 case this.articlesHitBox:
-                    this.controller.menuControls.articles(this.ramenShop.articlesWhite, 'white')
+                    this.controller.menuControls.articles(this.dimSumShop.articlesWhite, 'white')
                     break
 
-                case this.ramenShop.aboutMeBlack:
-                case this.ramenShop.aboutMeBlue:
+                case this.dimSumShop.aboutMeBlack:
+                case this.dimSumShop.aboutMeBlue:
                 case this.aboutMeHitBox:
-                    this.controller.menuControls.aboutMe(this.ramenShop.aboutMeBlack, 'black')
+                    this.controller.menuControls.aboutMe(this.dimSumShop.aboutMeBlack, 'black')
                     break
 
-                case this.ramenShop.creditsBlack:
-                case this.ramenShop.creditsOrange:
+                case this.dimSumShop.creditsBlack:
+                case this.dimSumShop.creditsOrange:
                 case this.creditsHitBox:
-                    this.controller.menuControls.credits(this.ramenShop.creditsBlack, 'black')
+                    this.controller.menuControls.credits(this.dimSumShop.creditsBlack, 'black')
                     break
 
                 //projects
@@ -553,7 +553,7 @@ export default class RayCaster
                     break
         
                 //screens
-                case this.ramenShop.arcadeScreen:
+                case this.dimSumShop.arcadeScreen:
                     this.controller.screenControls.arcadeScreen()
                     break
 
@@ -561,37 +561,37 @@ export default class RayCaster
                     this.hologram.breakHologram()
                     break
 
-                case this.ramenShop.littleTVScreen:
+                case this.dimSumShop.littleTVScreen:
                     this.controller.videoControls.littleTVScreen()
                     break
 
-                case this.ramenShop.tallScreen:
+                case this.dimSumShop.tallScreen:
                     this.controller.videoControls.tallScreen()
                     break
 
-                case this.ramenShop.tvScreen:
+                case this.dimSumShop.tvScreen:
                     this.controller.videoControls.tvScreen()
                     break
                                     
-                case this.ramenShop.smallScreen1:
+                case this.dimSumShop.smallScreen1:
                     this.controller.videoControls.smallScreen1()
                     this.sounds.playBloop()
                     break
 
-                case this.ramenShop.smallScreen2:
+                case this.dimSumShop.smallScreen2:
                     this.controller.videoControls.smallScreen2()
                     this.sounds.playBloop()
                     break
 
-                case this.ramenShop.smallScreen3:
+                case this.dimSumShop.smallScreen3:
                     this.controller.videoControls.smallScreen3()
                     break
 
-                case this.ramenShop.smallScreen4:
+                case this.dimSumShop.smallScreen4:
                     this.controller.videoControls.smallScreen4()
                     break
 
-                case this.ramenShop.smallScreen5:
+                case this.dimSumShop.smallScreen5:
                     this.controller.videoControls.smallScreen5()
                     break
 
@@ -629,15 +629,15 @@ export default class RayCaster
             {
                 // Menu
                 case this.vendingMachineHitBox:
-                    this.controller.menuControls.projects(this.ramenShop.projectsWhite, 'white')
+                    this.controller.menuControls.projects(this.dimSumShop.projectsWhite, 'white')
                     break
 
                 case this.arcadeMachineHitBox:
-                    this.controller.menuControls.credits(this.ramenShop.creditsBlack, 'black')
+                    this.controller.menuControls.credits(this.dimSumShop.creditsBlack, 'black')
                     break
 
-                case this.ramenShop.bigScreen:
-                    this.controller.menuControls.aboutMe(this.ramenShop.aboutMeBlack, 'black')
+                case this.dimSumShop.bigScreen:
+                    this.controller.menuControls.aboutMe(this.dimSumShop.aboutMeBlack, 'black')
                     break
             }
         }

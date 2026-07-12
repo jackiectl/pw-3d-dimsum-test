@@ -85,7 +85,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "jesseZhouJoined",
+            "name" : "jackieJoined",
             "rotation" : [
                 0,
                 -0.7071067690849304,
@@ -114,7 +114,7 @@
         },
         {
             "mesh" : 3,
-            "name" : "ramenShopJoined",
+            "name" : "dimSumShopJoined",
             "translation" : [
                 -2.663672685623169,
                 7.052237510681152,
@@ -470,7 +470,7 @@
         },
         {
             "mesh" : 32,
-            "name" : "jZhouPink",
+            "name" : "jackiePink",
             "translation" : [
                 -4.082852840423584,
                 2.6287317276000977,
@@ -600,7 +600,7 @@
         },
         {
             "mesh" : 41,
-            "name" : "jZhouBlack",
+            "name" : "jackieBlack",
             "translation" : [
                 -4.082852840423584,
                 2.6287317276000977,

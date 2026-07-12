@@ -1,20 +1,20 @@
 export default [
     // Models
     {
-        name: 'ramenShopModel',
+        name: 'dimSumShopModel',
         type: 'gltfModel',
-        path: 'models/ramenShop/glTF/ramenShop.gltf'
+        path: 'models/dimSumShop/glTF/dimSumShop.gltf'
     },
     {
-        name: 'ramenHologram',
+        name: 'dimSumHologram',
         type: 'gltfModel',
-        path: 'models/ramenShop/glTF/ramenHologram.gltf'
+        path: 'models/dimSumShop/glTF/dimSumHologram.gltf'
     },
     // Baked Textures
     {
-        name: 'ramenShopBakedTexture',
+        name: 'dimSumShopBakedTexture',
         type: 'KTX2Texture',
-        path: 'textures/baked/ramenShopBaked1024.ktx2'
+        path: 'textures/baked/dimSumShopBaked1024.ktx2'
     },
     {
         name: 'machinesBakedTexture',

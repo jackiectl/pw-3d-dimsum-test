@@ -181,7 +181,7 @@ export default class Camera
             this.controls.enableZoom = true
         }
 
-        this.transitions.jZhou = async (duration) =>
+        this.transitions.jackie = async (duration) =>
         {
             this.controls.enableRotate = false
             this.controls.enableZoom = false
