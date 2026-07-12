@@ -4,6 +4,7 @@ import Hologram from './Hologram.js'
 import DimSumShop from './DimSumShop.js'
 import Reflections from './Reflections.js'
 import Signs from './Signs.js'
+import CounterFood from './CounterFood.js'
 
 export default class World
 {
@@ -19,6 +20,7 @@ export default class World
             // Setup
             this.dimSumShop = new DimSumShop()
             this.signs = new Signs()
+            this.counterFood = new CounterFood()
             this.hologram = new Hologram()
             this.reflections = new Reflections()
         })

@@ -13,6 +13,7 @@ to work upright, +90 to write back.
 import sys
 import pathlib
 from PIL import Image, ImageDraw, ImageFont
+from content import CONTENT
 
 MONO = '/System/Library/Fonts/Supplemental/Courier New Bold.ttf'
 ORANGE = (255, 166, 38)
@@ -26,22 +27,9 @@ GRID_H = [8, 54, 101, 148, 194, 241, 288, 334, 381, 428, 474, 521, 568, 615, 662
 GRID_V_STEP = 59.8
 GRID_V_START = 4
 
-LINES = [
-    ('label', 'Original design,'),
-    ('label', '3D models & art:'),
-    ('value', 'JESSE ZHOU'),
-    ('gap', ''),
-    ('label', 'Adapted & extended by:'),
-    ('value', 'TIANLANG (JACKIE) CHEN'),
-    ('gap', ''),
-    ('label', 'Inspirations:'),
-    ('value', "@BJGDESIGN, RU'S"),
-    ('value', 'BLENDER DIARY,'),
-    ('value', 'NATALIA TSY'),
-    ('gap', ''),
-    ('value', '(C) 2022 JESSE ZHOU'),
-    ('value', '2026 ADAPTATION'),
-]
+LINES = [tuple(row) for row in CONTENT['credits']['lines']]
+
+COPYRIGHT = CONTENT['credits']['copyright']
 
 
 def main():
@@ -74,6 +62,25 @@ def main():
     img.rotate(90, expand=True).save(out / 'arcadeScreenCredits.png')
     img.save(out / 'arcadeScreenCredits_preview.png')
     print('wrote arcadeScreenCredits.png')
+
+    # the arcade's start screen carries its own copyright line
+    img = Image.open(src / 'arcadeScreenDefault.png').convert('RGB').rotate(-90, expand=True)
+    d = ImageDraw.Draw(img)
+    wipe = (140, 795, 890, 860)
+    d.rectangle(wipe, fill=FIELD)
+    for y in GRID_H:
+        if wipe[1] <= y <= wipe[3]:
+            d.line((wipe[0], y, wipe[2], y), fill=GRID, width=2)
+    x = GRID_V_START
+    while x < wipe[2]:
+        if x >= wipe[0]:
+            d.line((x, wipe[1], x, wipe[3]), fill=GRID, width=2)
+        x += GRID_V_STEP
+    font = ImageFont.truetype(MONO, 30)
+    d.text((512, 827), COPYRIGHT, font=font, fill=WHITE, anchor='mm')
+    img.rotate(90, expand=True).save(out / 'arcadeScreenDefault.png')
+    img.save(out / 'arcadeScreenDefault_preview.png')
+    print('wrote arcadeScreenDefault.png')
 
 
 if __name__ == '__main__':

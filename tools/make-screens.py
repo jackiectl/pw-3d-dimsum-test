@@ -10,6 +10,7 @@ bars, tabs, Back button and social icons untouched), then rotate back.
 import sys
 import pathlib
 from PIL import Image, ImageDraw, ImageFont
+from content import CONTENT
 
 FUTURA = '/System/Library/Fonts/Supplemental/Futura.ttc'
 BG = (14, 14, 14)
@@ -49,56 +50,24 @@ def paragraph(draw, text, box, size, leading, fill=(255, 255, 255)):
     return y
 
 
-ABOUT = (
-    "I'm a Data Science student at the University of Michigan, working where "
-    "machine learning, genomics and large language models meet. I build research "
-    "pipelines — foundation-model fine-tuning, LLM-guided workflows and "
-    "reproducible data infrastructure — and I care a lot about making them "
-    "fast and correct. Previously Mechanical Engineering at Shanghai Jiao Tong "
-    "University. Thanks for visiting!"
-)
+# every string below comes from content/content.json
+ABOUT = CONTENT['about']['body']
+EXPERIENCE_INTRO = CONTENT['experience']['body']
+SKILLS_INTRO = CONTENT['skills']['body']
 
-EXPERIENCE_INTRO = (
-    "I study Data Science at the University of Michigan, after two years of "
-    "Mechanical Engineering at Shanghai Jiao Tong University. Most of my time "
-    "goes into research: genomic foundation models, LLM-guided incentive design, "
-    "AI-guided environmental sensing, and data-analytics tooling for materials "
-    "science. Before that I did full-stack work at Mars. See the vending machine "
-    "for project details."
-)
+EXPERIENCE_CARDS = [(c['org'], c['role'], c['blurb'] + '*')
+                    for c in CONTENT['experience']['cards']]
+SKILL_GROUPS = [(g['title'], g['items']) for g in CONTENT['skills']['groups']]
 
-SKILLS_INTRO = (
-    "My toolkit spans machine learning, LLM and agentic AI workflows, and "
-    "full-stack web development. I am most at home in Python and PyTorch, "
-    "fine-tuning foundation models and squeezing speed out of training loops on "
-    "HPC clusters — but I also ship interactive front-ends like this one."
-)
-
-EXPERIENCE_CARDS = [
-    ("University of Michigan", "Research — Genomics & LLMs",
-     "EPCOT foundation model: pseudobulk data pipeline, 2–5x faster training, "
-     "reset-head fine-tuning. Also LLM incentive design for mobility systems*"),
-    ("Mars, Global IT Service Center", "Full-Stack Development Intern",
-     "WeCom enterprise platform: JavaScript, Node.js and Vue.js. API and interface "
-     "development, data migration, automation workflows*"),
-    ("Teaching & Contests", "TA / MCM Honorable Mention",
-     "TA for English Academic Writing and General Physics. Honorable Mention, "
-     "Mathematical Contest in Modeling (MCM-COMAP) 2025*"),
-]
-
-SKILL_GROUPS = [
-    ("CODING", ["Python", "C", "C++", "JavaScript", "SQL", "R", "MATLAB", "Java", "Bash", "Git"]),
-    ("ML & DATA", ["PyTorch", "scikit-learn", "Gaussian Processes", "Fine-Tuning", "HDF5", "Slurm / HPC"]),
-    ("LLM & AGENTIC AI", ["Prompt Engineering", "RAG", "LLM Workflows", "Agentic Coding", "Output Validation"]),
-    ("WEB DEVELOPMENT", ["HTML", "CSS", "JavaScript", "Node.js", "Vue.js", "Three.js"]),
-    ("TOOLS", ["Solidworks", "Blender", "MySQL", "SQLite"]),
-]
+ABOUT_HEAD = CONTENT['about']['heading']
+SKILLS_HEAD = CONTENT['skills']['heading']
+EXPERIENCE_HEAD = CONTENT['experience']['heading']
 
 
 def build_about(img):
     d = ImageDraw.Draw(img)
     d.rectangle((250, 1005, 1750, 1112), fill=BG)
-    d.text((281, 1012), "Hi, I'm Jackie.", font=font(96, BOLD), fill=(255, 255, 255))
+    d.text((281, 1012), ABOUT_HEAD, font=font(96, BOLD), fill=(255, 255, 255))
     paragraph(d, ABOUT, (279, 1210, 1590, 1692), 44, 54)
     return img
 
@@ -107,7 +76,7 @@ def build_skills(img):
     d = ImageDraw.Draw(img)
     # heading stops short of the right column
     d.rectangle((250, 1005, 1140, 1112), fill=BG)
-    d.text((281, 1012), "Skills", font=font(96, BOLD), fill=(255, 255, 255))
+    d.text((281, 1012), SKILLS_HEAD, font=font(96, BOLD), fill=(255, 255, 255))
     paragraph(d, SKILLS_INTRO, (279, 1210, 1000, 1692), 38, 46)
 
     # right column: wipe the old word cloud, lay out grouped tags
@@ -126,7 +95,7 @@ def build_skills(img):
 def build_experience(img):
     d = ImageDraw.Draw(img)
     d.rectangle((250, 1005, 1140, 1112), fill=BG)
-    d.text((281, 1012), "Experience", font=font(96, BOLD), fill=(255, 255, 255))
+    d.text((281, 1012), EXPERIENCE_HEAD, font=font(96, BOLD), fill=(255, 255, 255))
     paragraph(d, EXPERIENCE_INTRO, (279, 1210, 1120, 1780), 38, 46)
 
     # reuse the three card panels already baked into the layout, on the right
@@ -144,15 +113,8 @@ def build_experience(img):
 
 # ---- mobile: single narrow column, nav row on top ----
 
-SKILLS_INTRO_SHORT = (
-    "Machine learning, LLM and agentic AI workflows, and full-stack web "
-    "development — most at home in Python and PyTorch."
-)
-
-EXPERIENCE_INTRO_SHORT = (
-    "Data Science at the University of Michigan, previously Mechanical "
-    "Engineering at Shanghai Jiao Tong University."
-)
+SKILLS_INTRO_SHORT = CONTENT['skills']['bodyShort']
+EXPERIENCE_INTRO_SHORT = CONTENT['experience']['bodyShort']
 
 MOB_HEAD = (560, 992, 1500, 1062)
 MOB_BODY = (553, 1140, 1500, 1850)
@@ -166,14 +128,14 @@ def mobile_heading(d, title):
 
 def build_about_mobile(img):
     d = ImageDraw.Draw(img)
-    mobile_heading(d, "Hi, I'm Jackie.")
+    mobile_heading(d, ABOUT_HEAD)
     paragraph(d, ABOUT, (575, 1150, 1480, 1840), 38, 47)
     return img
 
 
 def build_skills_mobile(img):
     d = ImageDraw.Draw(img)
-    mobile_heading(d, "Skills")
+    mobile_heading(d, SKILLS_HEAD)
     y = paragraph(d, SKILLS_INTRO_SHORT, (575, 1150, 1480, 1400), 32, 40) + 24
     for title, items in SKILL_GROUPS:
         d.text((575, y), title, font=font(26, BOLD), fill=(255, 255, 255))
@@ -187,7 +149,7 @@ def build_skills_mobile(img):
 
 def build_experience_mobile(img):
     d = ImageDraw.Draw(img)
-    mobile_heading(d, "Experience")
+    mobile_heading(d, EXPERIENCE_HEAD)
     y = paragraph(d, EXPERIENCE_INTRO_SHORT, (575, 1150, 1480, 1330), 32, 40) + 20
     for org, role, blurb in EXPERIENCE_CARDS:
         d.rectangle((575, y, 1480, y + 148), fill=(30, 30, 30))

@@ -10,6 +10,7 @@ quantise -> edge overlay), not an AI-generated illustration.
 import sys
 import math
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops
+from content import CONTENT
 
 SIZE = 2048
 FUTURA = '/System/Library/Fonts/Supplemental/Futura.ttc'
@@ -21,7 +22,7 @@ ORANGE = (255, 160, 20)
 WHITE = (255, 255, 255)
 
 FACE_CROP = (230, 20, 1020, 810)   # head + shoulders out of the 1206x1466 portrait
-CIRCLE = (210, 790, 1160, 1740)     # portrait medallion on the screen
+CIRCLE = (549, 549, 1499, 1499)     # portrait medallion, centred on the screen
 
 
 def cartoonify(img, levels=7):
@@ -85,19 +86,17 @@ def main():
     ImageDraw.Draw(mask).ellipse((0, 0, diameter - 1, diameter - 1), fill=255)
     canvas.paste(face, (disc[0], disc[1]), mask)
 
-    # --- 点心 (dim sum) in the orange sign lettering up top ---
-    cjk = ImageFont.truetype(CJK, 300, index=1)
-    d.text((150, 150), '点心', font=cjk, fill=ORANGE, stroke_width=16, stroke_fill=WHITE)
-
     # --- BEST DIM SUM IN TOWN, arced over the medallion ---
     arc_font = ImageFont.truetype(FUTURA, 86, index=BOLD)
-    arc_text(canvas, 'BEST DIM SUM IN TOWN',
+    arc_text(canvas, CONTENT['bigScreen']['arcTagline'],
              centre=((CIRCLE[0] + CIRCLE[2]) // 2, (CIRCLE[1] + CIRCLE[3]) // 2),
              radius=(CIRCLE[2] - CIRCLE[0]) // 2 + 92,
              font=arc_font, fill=PURPLE, outline=WHITE,
              start_deg=200, end_deg=340)
 
-    canvas.convert('RGB').save(out_path)
+    # big-screen textures are stored turned 90 degrees clockwise (the mesh UVs
+    # expect it); drawing upright and saving directly shows up rotated in-game
+    canvas.convert('RGB').rotate(-90, expand=True).save(out_path)
     print('wrote', out_path)
 
 

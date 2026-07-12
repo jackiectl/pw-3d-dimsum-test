@@ -1,0 +1,53 @@
+{
+  "_readme": "All editable site copy lives here. Edit text, then run `npm run textures` to re-render every screen/sign texture and encode it into static/. Layout (positions, sizes, colours) stays in the tools/make-*.py scripts.",
+
+  "signs": {
+    "shopSign": "JACKIE'S DIM SUM",
+    "chineseSign": "美味点心屋",
+    "verticalSign": "DIM SUM",
+    "poleSign": "jackie",
+    "floorSignature": {
+      "name": ["Tianlang", "(Jackie) Chen"],
+      "subtitle": "Data Science  ·  Michigan"
+    }
+  },
+
+  "bigScreen": {
+    "arcText": "BEST DIM SUM IN TOWN"
+  },
+
+  "screens": {
+    "aboutHeading": "Hi, I'm Jackie.",
+    "about": "I'm a Data Science student at the University of Michigan, working where machine learning, genomics and large language models meet. I build research pipelines — foundation-model fine-tuning, LLM-guided workflows and reproducible data infrastructure — and I care a lot about making them fast and correct. Previously Mechanical Engineering at Shanghai Jiao Tong University. Thanks for visiting!",
+    "experienceIntro": "I study Data Science at the University of Michigan, after two years of Mechanical Engineering at Shanghai Jiao Tong University. Most of my time goes into research: genomic foundation models, LLM-guided incentive design, AI-guided environmental sensing, and data-analytics tooling for materials science. Before that I did full-stack work at Mars. See the vending machine for project details.",
+    "skillsIntro": "My toolkit spans machine learning, LLM and agentic AI workflows, and full-stack web development. I am most at home in Python and PyTorch, fine-tuning foundation models and squeezing speed out of training loops on HPC clusters — but I also ship interactive front-ends like this one.",
+    "skillsIntroShort": "Machine learning, LLM and agentic AI workflows, and full-stack web development — most at home in Python and PyTorch.",
+    "experienceIntroShort": "Data Science at the University of Michigan, previously Mechanical Engineering at Shanghai Jiao Tong University.",
+    "experienceCards": [
+      ["University of Michigan", "Research — Genomics & LLMs",
+       "EPCOT foundation model: pseudobulk data pipeline, 2–5x faster training, reset-head fine-tuning. Also LLM incentive design for mobility systems*"],
+      ["Mars, Global IT Service Center", "Full-Stack Development Intern",
+       "WeCom enterprise platform: JavaScript, Node.js and Vue.js. API and interface development, data migration, automation workflows*"],
+      ["Teaching & Contests", "TA / MCM Honorable Mention",
+       "TA for English Academic Writing and General Physics. Honorable Mention, Mathematical Contest in Modeling (MCM-COMAP) 2025*"]
+    ],
+    "skillGroups": [
+      ["CODING", ["Python", "C", "C++", "JavaScript", "SQL", "R", "MATLAB", "Java", "Bash", "Git"]],
+      ["ML & DATA", ["PyTorch", "scikit-learn", "Gaussian Processes", "Fine-Tuning", "HDF5", "Slurm / HPC"]],
+      ["LLM & AGENTIC AI", ["Prompt Engineering", "RAG", "LLM Workflows", "Agentic Coding", "Output Validation"]],
+      ["WEB DEVELOPMENT", ["HTML", "CSS", "JavaScript", "Node.js", "Vue.js", "Three.js"]],
+      ["TOOLS", ["Solidworks", "Blender", "MySQL", "SQLite"]]
+    ]
+  },
+
+  "projects": [
+    {
+      "menu": "Three.js Dim Sum Portfolio",
+      "title": "Three.js Dim Sum Shop",
+      "blurb": "A 3D, interactive take on the personal portfolio — the site you are standing in right now. Built with JavaScript and Three.js and optimized for both mobile and desktop. Forked from Jesse Zhou's open-source ramen shop and rebuilt around my own research and projects.",
+      "skills": "JavaScript, Three.js, WebGL, Blender"
+    },
+    {
+      "menu": "EPCOT Genomic Foundation Model",
+      "title": "EPCOT Foundation Model",
+      "blurb": "Scalable data preparation and training pipeline for TSS-to-expression prediction. Built an end-to-end pseudobulk pipeline from raw HPAP snMultiome data, implemented five bit-equivalent training optimizations

@@ -8,6 +8,9 @@ import sys
 import math
 import pathlib
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from content import CONTENT
+
+SHOP = CONTENT['shop']
 
 FUTURA = '/System/Library/Fonts/Supplemental/Futura.ttc'
 MEDIUM, BOLD = 0, 2
@@ -92,7 +95,7 @@ def chinese_sign(size=(2048, 334)):
     strokes = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(strokes)
     font = ImageFont.truetype(CJK, 190, index=1)
-    d.text((w / 2, h / 2), '美味点心屋', font=font, fill=GREEN + (255,), anchor='mm')
+    d.text((w / 2, h / 2), SHOP['chineseSign'], font=font, fill=GREEN + (255,), anchor='mm')
 
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     img.alpha_composite(strokes.filter(ImageFilter.GaussianBlur(radius=16)))
@@ -101,16 +104,21 @@ def chinese_sign(size=(2048, 334)):
 
 
 
-def floor_signature(size=(1536, 2048)):
-    """The ground signature: it read 'Jesse Zhou / Management Consultant'."""
+def floor_signature(size=(2048, 1496)):
+    """The ground signature: it read 'Jesse Zhou / Management Consultant'.
+
+    Drawn landscape; Signs.js turns it 90 degrees on the plane so the text runs
+    along Z like the original. 2048 x 1496 keeps the pixels square on the
+    2.33 x 3.19 m plane after that turn.
+    """
     w, h = size
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     name = ImageFont.truetype(FUTURA, 250, index=BOLD)
-    role = ImageFont.truetype(FUTURA, 108, index=MEDIUM)
-    d.text((w / 2, h / 2 - 190), 'Tianlang', font=name, fill=(255, 255, 255, 255), anchor='mm')
-    d.text((w / 2, h / 2 + 40), '(Jackie) Chen', font=name, fill=(255, 255, 255, 255), anchor='mm')
-    d.text((w / 2, h / 2 + 230), 'Data Science  ·  Michigan', font=role, fill=(235, 240, 255, 235), anchor='mm')
+    role = ImageFont.truetype(FUTURA, 100, index=MEDIUM)
+    d.text((w / 2, h / 2 - 260), SHOP['floorName1'], font=name, fill=(255, 255, 255, 255), anchor='mm')
+    d.text((w / 2, h / 2 - 10), SHOP['floorName2'], font=name, fill=(255, 255, 255, 255), anchor='mm')
+    d.text((w / 2, h / 2 + 200), SHOP['floorRole'], font=role, fill=(235, 240, 255, 235), anchor='mm')
     return img
 
 
@@ -124,7 +132,12 @@ def vertical_sign(size=(512, 1824)):
     d.rounded_rectangle((28, 28, w - 28, h - 28), radius=40, outline=CYAN + (255,), width=16)
 
     font = ImageFont.truetype(FUTURA, 168, index=BOLD)
-    letters = list('DIM') + [''] + list('SUM')
+    words = SHOP['verticalSign'].split()
+    letters = []
+    for i, word in enumerate(words):
+        if i:
+            letters.append('')
+        letters.extend(list(word))
     top, step = 150, 210
     for i, ch in enumerate(letters):
         if not ch:
@@ -143,7 +156,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     # main shop sign — replaces "JESSE'S RAMEN"
-    shop = neon((2048, 352), "JACKIE'S DIM SUM", 190, PINK_CORE, PINK)
+    shop = neon((2048, 352), SHOP['name'], 190, PINK_CORE, PINK)
     shop.save(out / 'signShop.png')
     print('wrote signShop.png')
 
@@ -167,7 +180,7 @@ def main():
         x += width + 14
 
     font = ImageFont.truetype(FUTURA, 104, index=BOLD)
-    d.text((w / 2, 350), 'jackie', font=font, fill=ink, anchor='mm')
+    d.text((w / 2, 350), SHOP['poleLabel'], font=font, fill=ink, anchor='mm')
 
     pole.save(out / 'signPole.png')
     print('wrote signPole.png')

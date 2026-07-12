@@ -36,6 +36,13 @@ const CHINESE = { x: -1.700, y: -0.720, z: -0.924, width: 3.80, height: 0.62 }
 // the signature painted on the ground; it read "Jesse Zhou / Management Consultant"
 const FLOOR_SIG = { x: -5.029, y: -2.715, z: 1.482, width: 2.33, depth: 3.19 }
 
+// world-space box tests for the unlit-copy strip
+const inside = (min, max, box) =>
+    min[0] > box[0][0] && max[0] < box[0][1] &&
+    min[1] > box[1][0] && max[1] < box[1][1] &&
+    min[2] > box[2][0] && max[2] < box[2][1]
+const small = (size, cap) => size[0] < cap && size[1] < cap && size[2] < cap
+
 export default class Signs
 {
     constructor()
@@ -77,6 +84,14 @@ export default class Signs
         this.removed.verticalBlue = this.stripComponents(this.shop.neonBlue, isVerticalSign)
         this.shop.neonGreen.visible = false
         this.addVerticalSign()
+
+        // every neon element exists twice: the lit tubes above, and a dark
+        // "switched-off" copy merged into the main shop mesh — strip those too
+        this.removed.unlitCopies = this.stripComponents(this.shop.dimSumShop, (s, mn, mx) =>
+            (small(s, 0.7) && inside(mn, mx, [[-2.70, -2.15], [ 0.70, 1.60], [-3.10,  1.15]])) ||  // JESSE'S RAMEN
+            (small(s, 0.8) && inside(mn, mx, [[-3.35, -2.70], [ 0.90, 3.65], [-3.70, -3.30]])) ||  // vertical RAMEN
+            (small(s, 0.7) && inside(mn, mx, [[-1.80, -1.55], [-1.05, -0.40], [-2.90,  1.05]])) ||  // old Chinese glyphs
+            (small(s, 2.0) && inside(mn, mx, [[-2.50, -2.00], [ 1.70, 3.70], [-0.35,  2.10]])))    // bowl + chopsticks + noodles
     }
 
     addVerticalSign()
@@ -106,6 +121,10 @@ export default class Signs
         const texture = this.resources.items.signFloorTexture
         texture.flipY = true
         texture.encoding = THREE.sRGBEncoding
+        // the original signature reads along Z, the plane's long axis; the art is
+        // drawn landscape, so turn it a quarter turn on the plane
+        texture.center.set(0.5, 0.5)
+        texture.rotation = Math.PI / 2
         texture.needsUpdate = true
 
         const geometry = new THREE.PlaneGeometry(FLOOR_SIG.width, FLOOR_SIG.depth)

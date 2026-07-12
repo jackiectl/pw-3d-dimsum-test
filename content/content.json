@@ -1,0 +1,216 @@
+{
+  "_comment": "All the words that appear in the 3D shop live here. Edit this file, then run `npm run textures` to repaint every screen and re-encode it — no code changes, no coordinate hunting. Keep names roughly the same length as what's here so the layout still fits.",
+  "shop": {
+    "name": "JACKIE'S DIM SUM",
+    "chineseSign": "美味点心屋",
+    "poleLabel": "jackie",
+    "verticalSign": "DIM SUM",
+    "floorName1": "Tianlang",
+    "floorName2": "(Jackie) Chen",
+    "floorRole": "Data Science  ·  Michigan"
+  },
+  "bigScreen": {
+    "arcTagline": "BEST DIM SUM IN TOWN"
+  },
+  "about": {
+    "heading": "Hi, I'm Jackie.",
+    "body": "I'm a Data Science student at the University of Michigan, working where machine learning, genomics and large language models meet. I build research pipelines — foundation-model fine-tuning, LLM-guided workflows and reproducible data infrastructure — and I care a lot about making them fast and correct. Previously Mechanical Engineering at Shanghai Jiao Tong University. Thanks for visiting!",
+    "bodyShort": "I'm a Data Science student at the University of Michigan, working where machine learning, genomics and large language models meet."
+  },
+  "experience": {
+    "heading": "Experience",
+    "body": "I study Data Science at the University of Michigan, after two years of Mechanical Engineering at Shanghai Jiao Tong University. Most of my time goes into research: genomic foundation models, LLM-guided incentive design, AI-guided environmental sensing, and data-analytics tooling for materials science. Before that I did full-stack work at Mars. See the vending machine for project details.",
+    "bodyShort": "Data Science at the University of Michigan, previously Mechanical Engineering at Shanghai Jiao Tong University.",
+    "cards": [
+      {
+        "org": "University of Michigan",
+        "role": "Research — Genomics & LLMs",
+        "blurb": "EPCOT foundation model: pseudobulk data pipeline, 2–5x faster training, reset-head fine-tuning. Also LLM incentive design for mobility systems"
+      },
+      {
+        "org": "Mars, Global IT Service Center",
+        "role": "Full-Stack Development Intern",
+        "blurb": "WeCom enterprise platform: JavaScript, Node.js and Vue.js. API and interface development, data migration, automation workflows"
+      },
+      {
+        "org": "Teaching & Contests",
+        "role": "TA / MCM Honorable Mention",
+        "blurb": "TA for English Academic Writing and General Physics. Honorable Mention, Mathematical Contest in Modeling (MCM-COMAP) 2025"
+      }
+    ]
+  },
+  "skills": {
+    "heading": "Skills",
+    "body": "My toolkit spans machine learning, LLM and agentic AI workflows, and full-stack web development. I am most at home in Python and PyTorch, fine-tuning foundation models and squeezing speed out of training loops on HPC clusters — but I also ship interactive front-ends like this one.",
+    "bodyShort": "Machine learning, LLM and agentic AI workflows, and full-stack web development — most at home in Python and PyTorch.",
+    "groups": [
+      {
+        "title": "CODING",
+        "items": [
+          "Python",
+          "C",
+          "C++",
+          "JavaScript",
+          "SQL",
+          "R",
+          "MATLAB",
+          "Java",
+          "Bash",
+          "Git"
+        ]
+      },
+      {
+        "title": "ML & DATA",
+        "items": [
+          "PyTorch",
+          "scikit-learn",
+          "Gaussian Processes",
+          "Fine-Tuning",
+          "HDF5",
+          "Slurm / HPC"
+        ]
+      },
+      {
+        "title": "LLM & AGENTIC AI",
+        "items": [
+          "Prompt Engineering",
+          "RAG",
+          "LLM Workflows",
+          "Agentic Coding",
+          "Output Validation"
+        ]
+      },
+      {
+        "title": "WEB DEVELOPMENT",
+        "items": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Node.js",
+          "Vue.js",
+          "Three.js"
+        ]
+      },
+      {
+        "title": "TOOLS",
+        "items": [
+          "Solidworks",
+          "Blender",
+          "MySQL",
+          "SQLite"
+        ]
+      }
+    ]
+  },
+  "projects": [
+    {
+      "menuLabel": "Three.js Dim Sum Portfolio",
+      "title": "Three.js Dim Sum Shop",
+      "blurb": "A 3D, interactive take on the personal portfolio — the site you are standing in right now. Built with JavaScript and Three.js and optimized for both mobile and desktop. Forked from Jesse Zhou's open-source ramen shop and rebuilt around my own research and projects.",
+      "skills": "JavaScript, Three.js, WebGL, Blender"
+    },
+    {
+      "menuLabel": "EPCOT Genomic Foundation Model",
+      "title": "EPCOT Foundation Model",
+      "blurb": "Scalable data preparation and training pipeline for TSS-to-expression prediction. Built an end-to-end pseudobulk pipeline from raw HPAP snMultiome data, implemented five bit-equivalent training optimizations for a 2-5x per-epoch speedup, and found and fixed a ~50 kb TSS-bin offset bug that improved interpretability.",
+      "skills": "PyTorch, HDF5, Slurm / HPC, Python"
+    },
+    {
+      "menuLabel": "LLM Incentive Design for Mobility",
+      "title": "LLM Incentive Design",
+      "blurb": "Investigating how large language models can support incentive mechanism design for shared mobility systems — ridesharing, transit incentives and vehicle-sharing. Building LLM-guided workflows that generate and evaluate practical, interpretable incentive strategies.",
+      "skills": "LLMs, Prompt Engineering, Optimization"
+    },
+    {
+      "menuLabel": "Microbial Genomic Representation",
+      "title": "Microbial Genomics",
+      "blurb": "A composable genomic representation framework that converts microbial genomes into interpretable, parameter-free functional encodings via proteogenic k-mer tokenization, integrating with pre-trained sequence models (Evo, ESM, ProtT5) and leakage-safe statistical validation.",
+      "skills": "Python, scikit-learn, Foundation Models"
+    },
+    {
+      "menuLabel": "AI-Guided Environmental Sensing",
+      "title": "Environmental Sensing",
+      "blurb": "AI-guided sensing for the sparse, dynamic Great Lakes environment, under limited sensor coverage and high uncertainty. Reproducible workflows for data ingestion, baseline reconstruction, uncertainty quantification, and uncertainty-aware sensor placement strategies.",
+      "skills": "Gaussian Processes, Python, UQ"
+    },
+    {
+      "menuLabel": "Materials Science Data Applets",
+      "title": "Materials Data Applets",
+      "blurb": "Web applets with a JavaScript front end and a Python back end supporting data analytics, curation and sharing for the materials research community. Interactive modules let users upload datasets and analyze them with state-of-the-art models and fitting methods, aligned with FAIR data principles.",
+      "skills": "JavaScript, Python, Data Visualization"
+    },
+    {
+      "menuLabel": "WeCom Full-Stack Platform",
+      "title": "WeCom @ Mars",
+      "blurb": "Full-stack secondary development on WeCom (Enterprise WeChat) at the Mars Global IT Service Center, supporting internal enterprise communication and workflow tools. API implementation, interface development, data migration and automation workflows during a system migration.",
+      "skills": "JavaScript, Node.js, Vue.js"
+    },
+    {
+      "menuLabel": "MCM Mathematical Modeling",
+      "title": "MCM-COMAP 2025",
+      "blurb": "Honorable Mention in the Mathematical Contest in Modeling. Built, validated and wrote up a complete mathematical model against a 96-hour deadline, covering the full modeling, sensitivity analysis and reporting cycle.",
+      "skills": "MATLAB, Python, Mathematical Modeling"
+    }
+  ],
+  "credits": {
+    "lines": [
+      [
+        "label",
+        "Original design,"
+      ],
+      [
+        "label",
+        "3D models & art:"
+      ],
+      [
+        "value",
+        "JESSE ZHOU"
+      ],
+      [
+        "gap",
+        ""
+      ],
+      [
+        "label",
+        "Adapted & extended by:"
+      ],
+      [
+        "value",
+        "TIANLANG (JACKIE) CHEN"
+      ],
+      [
+        "gap",
+        ""
+      ],
+      [
+        "label",
+        "Inspirations:"
+      ],
+      [
+        "value",
+        "@BJGDESIGN, RU'S"
+      ],
+      [
+        "value",
+        "BLENDER DIARY,"
+      ],
+      [
+        "value",
+        "NATALIA TSY"
+      ],
+      [
+        "gap",
+        ""
+      ],
+      [
+        "value",
+        "(C) 2026 JACKIE CHEN"
+      ],
+      [
+        "value",
+        "AND JESSE ZHOU"
+      ]
+    ],
+    "copyright": "(C) 2026 JACKIE CHEN & JESSE ZHOU"
+  }
+}

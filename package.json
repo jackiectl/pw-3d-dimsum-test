@@ -4,6 +4,8 @@
   "scripts": {
     "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config ./bundler/webpack.prod.js",
     "dev": "NODE_OPTIONS=--openssl-legacy-provider webpack serve --config ./bundler/webpack.dev.js",
+    "textures": "bash tools/build-textures.sh",
+    "shots": "node tools/views.mjs .cache/shots default \"sign:-9,1.6,-0.9:-2.4,1.1,-0.9\" \"counter:-5.5,-0.8,1.6:-2.4,-1.7,-1.0\" \"floor:-4.6,2.2,6.2:-5.03,-2.72,1.48\" \"bigscreen:0.7,3.8,6.5:0.7,3.8,0.53\"",
     "deploy": "vercel --prod"
   },
   "dependencies": {
