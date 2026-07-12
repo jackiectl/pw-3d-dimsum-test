@@ -11,10 +11,18 @@ from PIL import Image, ImageDraw, ImageFont
 FUTURA = '/System/Library/Fonts/Supplemental/Futura.ttc'
 MEDIUM, BOLD = 0, 2
 
-TILE_BG = (161, 252, 227)
-CARD_BG = (183, 241, 225)
+# mean colours of the card / tile faces (they carry a fine dither pattern; the mean
+# repaints them evenly with no visible patch seam)
+TILE_BG = (155, 248, 217)
+CARD_BG = (156, 247, 218)
 INK = (47, 80, 72)
 PREVIEW_BG = (33, 37, 68)
+CHIP_BG = (55, 55, 55)
+
+# card face, inset just inside its rounded border + drop shadow
+CARD_FACE = (80, 450, 800, 740)
+# small tile face on a project page (the label sits at its foot)
+TILE_FACE = (72, 296, 234, 380)
 
 # the two tile rows sit at slightly different offsets: (left edges, width, label y)
 TILE_ROWS = [
@@ -134,10 +142,12 @@ def build_project(img, index):
     label, title, blurb, skills = PROJECTS[index]
     d = ImageDraw.Draw(img)
 
-    # small tile label (top left)
-    d.rectangle(SMALL_TILE_LABEL, fill=TILE_BG)
-    y = SMALL_TILE_LABEL[1] + 4
-    for line in wrap(d, label, font(15, BOLD), 148):
+    # Repaint the whole tile / card face rather than patching over each old text
+    # block: the old copy varies in length per project, so any fixed-size patch
+    # leaves some of it showing.
+    d.rounded_rectangle(TILE_FACE, radius=10, fill=TILE_BG)
+    y = TILE_FACE[1] + 12
+    for line in wrap(d, label, font(15, BOLD), 148)[:4]:
         d.text((86, y), line, font=font(15, BOLD), fill=INK)
         y += 20
 
@@ -152,18 +162,19 @@ def build_project(img, index):
             d.text(((PREVIEW[0] + PREVIEW[2] - w) / 2, ty), line, font=fnt, fill=(230, 240, 255))
             ty += 40
 
-    # title + description + skills
-    d.rectangle((TITLE_XY[0] - 4, TITLE_XY[1] - 4, 800, TITLE_XY[1] + 40), fill=CARD_BG)
-    d.text(TITLE_XY, title, font=font(30, BOLD), fill=(45, 62, 58))
+    d.rounded_rectangle(CARD_FACE, radius=20, fill=CARD_BG)
+    d.text((115, 478), title, font=font(32, BOLD), fill=(45, 62, 58))
 
-    d.rectangle(DESC_BOX, fill=CARD_BG)
-    y = DESC_BOX[1]
-    for line in wrap(d, blurb, font(15, MEDIUM), DESC_BOX[2] - DESC_BOX[0]):
-        d.text((DESC_BOX[0], y), line, font=font(15, MEDIUM), fill=(58, 78, 72))
+    y = 533
+    for line in wrap(d, blurb, font(15, MEDIUM), 645):
+        d.text((113, y), line, font=font(15, MEDIUM), fill=(58, 78, 72))
         y += 19
 
-    d.rectangle((SKILLS_XY[0] - 2, SKILLS_XY[1] - 2, 790, SKILLS_XY[1] + 22), fill=CARD_BG)
-    d.text(SKILLS_XY, skills, font=font(15, MEDIUM), fill=(58, 78, 72))
+    # the Skills badge trails the description, as in the original layout
+    chip_y = y + 14
+    d.rounded_rectangle((117, chip_y, 171, chip_y + 25), radius=4, fill=CHIP_BG)
+    d.text((124, chip_y + 5), 'Skills', font=font(14, BOLD), fill=(255, 255, 255))
+    d.text((182, chip_y + 5), skills, font=font(15, MEDIUM), fill=(58, 78, 72))
     return img
 
 

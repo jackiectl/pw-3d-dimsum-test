@@ -23,6 +23,7 @@ export default class Controller
         this.setCamControls()
         this.setVideoControls()
         this.setSocialControls()
+        this.setHudControls()
 
         this.resources.on('ready', () =>
         {
@@ -233,7 +234,7 @@ export default class Controller
                 this.sounds.playClick()
                 this.menuControls.buttonIndicator(obj, color)
                 await this.sleep(250)
-                window.open('https://github.com/jackiectl', '_blank')
+                window.open('https://jackiectl.github.io', '_blank')
             }
         }
         this.menuControls.aboutMe = async (obj, color) =>
@@ -614,7 +615,7 @@ export default class Controller
         {
             if(this.logic.buttonsLocked === false && (this.logic.mode === 'aboutMe' || this.logic.mode === 'skills' || this.logic.mode === 'experience'))
             {
-                window.open('https://github.com/jackiectl', '_blank');
+                window.open('https://jackiectl.github.io', '_blank');
             }
             
         }
@@ -626,6 +627,70 @@ export default class Controller
                 window.location.href='mailto:ctlang@umich.edu'
             }
             
+        }
+    }
+
+    // Overlay HUD: audio toggles plus a menu button that works from anywhere.
+    // The credits sequence in particular had no way out except clicking through
+    // every screen.
+    setHudControls()
+    {
+        const backButton = document.querySelector('#hudBack')
+        const musicButton = document.querySelector('#hudMusic')
+        const effectsButton = document.querySelector('#hudSfx')
+
+        backButton.addEventListener('click', () => this.backToMenu())
+
+        musicButton.addEventListener('click', () =>
+        {
+            musicButton.classList.toggle('off', this.sounds.toggleMusic())
+        })
+
+        effectsButton.addEventListener('click', () =>
+        {
+            effectsButton.classList.toggle('off', this.sounds.toggleEffects())
+        })
+    }
+
+    async backToMenu()
+    {
+        const mode = this.logic.mode
+
+        if(this.logic.buttonsLocked === true || mode === 'menu')
+        {
+            return
+        }
+
+        this.sounds.playBloop()
+        this.logic.mode = 'menu'
+        this.camControls.toDefault()
+
+        if(mode === 'aboutMe' || mode === 'skills' || mode === 'experience')
+        {
+            this.bigScreenTransition(
+                this.materials.bigScreenMaterial,
+                this.resources.items.bigScreenDefaultTexture,
+                0.4,
+                1,
+                0
+            )
+        }
+        else if(mode.startsWith('projects'))
+        {
+            this.bigScreenTransition(
+                this.materials.vendingMachineScreenMaterial,
+                this.resources.items.vendingMachineDefaultTexture,
+                0.4,
+                true
+            )
+        }
+        else if(mode === 'creditsStart' || mode === 'credits' || mode === 'thanks')
+        {
+            this.screenTransition(
+                this.materials.arcadeScreenMaterial,
+                this.resources.items.arcadeScreenDefaultTexture,
+                0.2
+            )
         }
     }
 

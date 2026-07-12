@@ -71,6 +71,10 @@ export default class PreLoader extends EventEmitter
             this.sounds.playClick()
             this.sounds.playWhoosh()
             this.sounds.playCooking()
+            this.sounds.startMusic()
+
+            // Reveal the overlay controls now that we're inside the shop
+            document.querySelector('#hud').classList.add('show')
 
             // Required for instagram brower compatibility
             this.sizes.resize()

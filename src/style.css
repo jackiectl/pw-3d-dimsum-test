@@ -377,3 +377,85 @@ h1 {
         opacity: 0;
     }
 }
+/* ---- overlay HUD: menu / audio toggles / 2D site escape hatch ---- */
+
+#hud
+{
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease;
+}
+
+#hud.show
+{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#hud button,
+#hud a
+{
+    font-family: 'Poppins', 'Futura', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #d9f7ff;
+    background: rgba(10, 12, 24, 0.55);
+    border: 1px solid rgba(120, 230, 255, 0.35);
+    border-radius: 999px;
+    padding: 8px 14px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+#hud button:hover,
+#hud a:hover
+{
+    color: #ffffff;
+    border-color: #78e6ff;
+    background: rgba(30, 40, 70, 0.75);
+}
+
+#hud button.off
+{
+    color: #6a7180;
+    border-color: rgba(120, 130, 150, 0.3);
+}
+
+#hud #hud2d
+{
+    color: #ffe9a8;
+    border-color: rgba(255, 200, 90, 0.45);
+}
+
+#hud #hud2d:hover
+{
+    border-color: #ffc85a;
+}
+
+@media screen and (max-width: 700px)
+{
+    #hud
+    {
+        top: 10px;
+        right: 10px;
+        gap: 6px;
+    }
+
+    #hud button,
+    #hud a
+    {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+}

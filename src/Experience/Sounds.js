@@ -8,6 +8,11 @@ import ding from '../../static/sounds/ding.mp3'
 import cooking from '../../static/sounds/cooking.mp3'
 import whoosh from '../../static/sounds/whoosh.mp3'
 import hologram from '../../static/sounds/hologram.mp3'
+import music from '../../static/sounds/music.m4a'
+
+const MUSIC_VOLUME = 0.35
+const MUSIC_DELAY = 6000    // let the shop ambience have the opening to itself
+const MUSIC_FADE = 5000
 
 export default class Sounds
 {
@@ -51,7 +56,46 @@ export default class Sounds
             volume: 0.2
         });
 
+        // Background music. Starts silent; startMusic() cross-fades it in over the
+        // shop ambience once the opening has played.
+        this.music = new Howl({
+            src: [music],
+            loop: true,
+            volume: 0
+        });
+
+        this.effects = [this.arcade, this.bloop, this.click, this.ding, this.cooking, this.whoosh, this.hologram]
+        this.musicMuted = false
+        this.effectsMuted = false
+
         this.setMute()
+    }
+
+    startMusic()
+    {
+        window.setTimeout(() =>
+        {
+            this.music.play()
+            this.music.fade(0, this.musicMuted ? 0 : MUSIC_VOLUME, MUSIC_FADE)
+            this.cooking.fade(this.cooking.volume(), 0.015, MUSIC_FADE)
+        }, MUSIC_DELAY)
+    }
+
+    toggleMusic()
+    {
+        this.musicMuted = !this.musicMuted
+        this.music.volume(this.musicMuted ? 0 : MUSIC_VOLUME)
+        return this.musicMuted
+    }
+
+    toggleEffects()
+    {
+        this.effectsMuted = !this.effectsMuted
+        for(const effect of this.effects)
+        {
+            effect.mute(this.effectsMuted)
+        }
+        return this.effectsMuted
     }
 
     setMute()

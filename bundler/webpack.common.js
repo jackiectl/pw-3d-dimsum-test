@@ -97,7 +97,7 @@ module.exports = {
            
             // MP3
             {
-                test: /\.(mp3)$/,
+                test: /\.(mp3|m4a)$/,
                 use:
                 [
                     {
