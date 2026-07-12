@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
+import buildDimSumModel from './DimSumModel.js'
 
 export default class Hologram
 {
@@ -19,12 +20,13 @@ export default class Hologram
             // this.debugFolder = this.debug.ui.addFolder('hologram')
         }
 
-        // Resource
-        this.dimSumHologram = this.resources.items.dimSumHologram
+        // The shop serves dim sum now, so the hologram assembles into a bamboo steamer
+        // built in code rather than the ramen bowl in the glTF.
+        this.dimSumModel = buildDimSumModel()
         this.update = function update() {}
 
         this.animate = true
-        this.positions = this.combineBuffer( this.dimSumHologram.scene, 'position' )
+        this.positions = this.combineBuffer( this.dimSumModel, 'position' )
         this.createMesh( this.positions, this.scene, 0.0225, -0.1, 2, -0.95 )
 
 

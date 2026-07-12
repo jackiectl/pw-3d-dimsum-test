@@ -10,7 +10,7 @@ import pathlib
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 FUTURA = '/System/Library/Fonts/Supplemental/Futura.ttc'
-BOLD = 2
+MEDIUM, BOLD = 0, 2
 
 PINK = (255, 62, 165)
 PINK_CORE = (255, 214, 240)
@@ -100,6 +100,44 @@ def chinese_sign(size=(2048, 334)):
     return img
 
 
+
+def floor_signature(size=(1536, 2048)):
+    """The ground signature: it read 'Jesse Zhou / Management Consultant'."""
+    w, h = size
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    name = ImageFont.truetype(FUTURA, 250, index=BOLD)
+    role = ImageFont.truetype(FUTURA, 108, index=MEDIUM)
+    d.text((w / 2, h / 2 - 190), 'Tianlang', font=name, fill=(255, 255, 255, 255), anchor='mm')
+    d.text((w / 2, h / 2 + 40), '(Jackie) Chen', font=name, fill=(255, 255, 255, 255), anchor='mm')
+    d.text((w / 2, h / 2 + 230), 'Data Science  ·  Michigan', font=role, fill=(235, 240, 255, 235), anchor='mm')
+    return img
+
+
+
+def vertical_sign(size=(512, 1824)):
+    """The tall sign on the shop's flank; it read RAMEN top to bottom."""
+    w, h = size
+    strokes = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(strokes)
+
+    d.rounded_rectangle((28, 28, w - 28, h - 28), radius=40, outline=CYAN + (255,), width=16)
+
+    font = ImageFont.truetype(FUTURA, 168, index=BOLD)
+    letters = list('DIM') + [''] + list('SUM')
+    top, step = 150, 210
+    for i, ch in enumerate(letters):
+        if not ch:
+            continue
+        d.text((w / 2, top + i * step), ch, font=font, fill=PINK_CORE + (255,),
+               anchor='mm', stroke_width=9, stroke_fill=PINK + (255,))
+
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    img.alpha_composite(strokes.filter(ImageFilter.GaussianBlur(radius=15)))
+    img.alpha_composite(strokes)
+    return img
+
+
 def main():
     out = pathlib.Path(sys.argv[1])
     out.mkdir(parents=True, exist_ok=True)
@@ -133,6 +171,12 @@ def main():
 
     pole.save(out / 'signPole.png')
     print('wrote signPole.png')
+
+    floor_signature().save(out / 'signFloor.png')
+    print('wrote signFloor.png')
+
+    vertical_sign().save(out / 'signVertical.png')
+    print('wrote signVertical.png')
 
 
 if __name__ == '__main__':

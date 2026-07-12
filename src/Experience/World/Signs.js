@@ -24,10 +24,17 @@ const isBowl = (size, min) =>
 // the chopsticks, higher again
 const isChopstick = (size, min) => min[1] > 2.9 && size[2] > 1.0
 
+// the tall sign on the shop's flank, reading RAMEN top to bottom (letters and frame
+// are one component here, so the whole board goes and a plane replaces it)
+const isVerticalSign = (size, min) => size[1] > 2.5 && size[2] < 0.25 && min[2] < -3.4
+
 const SHOP_SIGN = { x: -2.465, y: 1.145, z: -0.965, width: 4.05, height: 0.70 }
 const POLE_SIGN = { x: -4.120, y: -0.371, z: -4.747, size: 0.709 }
 const FOOD_ICON = { x: -2.380, y: 2.640, z: 0.640, width: 2.05, height: 1.85 }
 const CHINESE = { x: -1.700, y: -0.720, z: -0.924, width: 3.80, height: 0.62 }
+
+// the signature painted on the ground; it read "Jesse Zhou / Management Consultant"
+const FLOOR_SIG = { x: -5.029, y: -2.715, z: 1.482, width: 2.33, depth: 3.19 }
 
 export default class Signs
 {
@@ -60,6 +67,59 @@ export default class Signs
         this.shop.jackieBlack.visible = false
         this.addPlane('poleSign', { ...POLE_SIGN, width: POLE_SIGN.size, height: POLE_SIGN.size },
                       'signPoleTexture', { transparent: false })
+
+        this.shop.jackieJoined.visible = false
+        this.addFloorSignature()
+
+        // the tall RAMEN board on the flank: pink and blue carry its frame and glow,
+        // and neonGreen is nothing but its letters
+        this.removed.verticalPink = this.stripComponents(this.shop.neonPink, isVerticalSign)
+        this.removed.verticalBlue = this.stripComponents(this.shop.neonBlue, isVerticalSign)
+        this.shop.neonGreen.visible = false
+        this.addVerticalSign()
+    }
+
+    addVerticalSign()
+    {
+        const texture = this.resources.items.signVerticalTexture
+        texture.flipY = true
+        texture.encoding = THREE.sRGBEncoding
+        texture.needsUpdate = true
+
+        // it lies in the XY plane, so PlaneGeometry needs no rotation
+        const geometry = new THREE.PlaneGeometry(0.78, 2.72)
+
+        this.verticalSign = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+            map: texture,
+            transparent: true,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+        }))
+        this.verticalSign.position.set(-3.00, 2.275, -3.47)
+        this.verticalSign.name = 'verticalSign'
+
+        this.scene.add(this.verticalSign)
+    }
+
+    addFloorSignature()
+    {
+        const texture = this.resources.items.signFloorTexture
+        texture.flipY = true
+        texture.encoding = THREE.sRGBEncoding
+        texture.needsUpdate = true
+
+        const geometry = new THREE.PlaneGeometry(FLOOR_SIG.width, FLOOR_SIG.depth)
+        geometry.rotateX(-Math.PI * 0.5)      // lie flat on the ground
+
+        this.floorSignature = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+            map: texture,
+            transparent: true,
+            depthWrite: false,
+        }))
+        this.floorSignature.position.set(FLOOR_SIG.x, FLOOR_SIG.y, FLOOR_SIG.z)
+        this.floorSignature.name = 'floorSignature'
+
+        this.scene.add(this.floorSignature)
     }
 
     /**
